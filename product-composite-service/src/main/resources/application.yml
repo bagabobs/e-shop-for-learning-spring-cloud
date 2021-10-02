@@ -1,0 +1,9 @@
+server:
+  port: 7000
+  error:
+    include-message: always
+
+logging:
+  level:
+    root: INFO
+    com.learning: DEBUG
