@@ -8,4 +8,6 @@ public class Review {
     int reviewId;
     String author;
     String subject;
+    String content;
+    String serviceAddress;
 }
