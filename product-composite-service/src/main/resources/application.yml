@@ -3,6 +3,14 @@ server:
   error:
     include-message: always
 
+app:
+  product-service:
+    port: 7001
+  recommendation-service:
+    port: 7003
+  review-service:
+    port: 7002
+
 logging:
   level:
     root: INFO

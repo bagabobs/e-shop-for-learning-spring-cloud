@@ -1,8 +1,8 @@
-com/learn/springcloud/util/HttpErrorInfo$HttpErrorInfoBuilder.class
-com/learn/springcloud/util/exceptions/InvalidInputException.class
-com/learn/springcloud/util/HttpErrorInfo.class
-com/learn/springcloud/util/exceptions/ProductNotFoundException.class
-com/learn/springcloud/util/exceptions/ServiceAddressNotFoundException.class
-com/learn/springcloud/util/ServiceUtil.class
-com/learn/springcloud/util/GlobalControllerExceptionHandler.class
-com/learn/springcloud/util/exceptions/NotFoundException.class
+com\learn\springcloud\util\HttpErrorInfo$HttpErrorInfoBuilder.class
+com\learn\springcloud\util\exceptions\NotFoundException.class
+com\learn\springcloud\util\HttpErrorInfo.class
+com\learn\springcloud\util\exceptions\InvalidInputException.class
+com\learn\springcloud\util\GlobalControllerExceptionHandler.class
+com\learn\springcloud\util\ServiceUtil.class
+com\learn\springcloud\util\exceptions\ProductNotFoundException.class
+com\learn\springcloud\util\exceptions\ServiceAddressNotFoundException.class

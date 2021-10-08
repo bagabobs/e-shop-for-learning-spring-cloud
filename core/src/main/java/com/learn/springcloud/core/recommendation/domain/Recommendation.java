@@ -1,4 +1,4 @@
-package com.learn.springcloud.core.recommendation;
+package com.learn.springcloud.core.recommendation.domain;
 
 import lombok.Value;
 
