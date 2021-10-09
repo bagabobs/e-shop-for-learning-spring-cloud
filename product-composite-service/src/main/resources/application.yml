@@ -6,10 +6,13 @@ server:
 app:
   product-service:
     port: 7001
+    host: localhost
   recommendation-service:
     port: 7003
+    host: localhost
   review-service:
     port: 7002
+    host: localhost
 
 logging:
   level:
