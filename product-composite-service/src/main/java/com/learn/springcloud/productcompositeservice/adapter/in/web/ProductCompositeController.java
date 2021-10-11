@@ -23,12 +23,12 @@ public class ProductCompositeController {
     @Autowired
     public ProductCompositeController(
             RestTemplate restTemplate,
-            @Value("app.product-service.port") int productPort,
-            @Value("app.product-servie.host") String productHost,
-            @Value("app.recommendation-service.port") int recommendationPort,
-            @Value("app.recommendation-service.host") String recommendationHost,
-            @Value("app.review-service.port") int reviewPort,
-            @Value("app.review-service.host") String reviewHost
+            @Value("${app.product-service.port}") int productPort,
+            @Value("${app.product-service.host}") String productHost,
+            @Value("${app.recommendation-service.port}") int recommendationPort,
+            @Value("${app.recommendation-service.host}") String recommendationHost,
+            @Value("${app.review-service.port}") int reviewPort,
+            @Value("${app.review-service.host}") String reviewHost
             ) {
         this.restTemplate = restTemplate;
 

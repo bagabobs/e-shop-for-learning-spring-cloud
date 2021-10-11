@@ -13,7 +13,7 @@ import com.learn.springcloud.util.exceptions.ProductAggregateNotFoundException;
 import com.learn.springcloud.util.exceptions.ProductNotFoundException;
 import com.learn.springcloud.util.exceptions.RecommendationNotFoundException;
 import com.learn.springcloud.util.exceptions.ReviewNotFoundException;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
@@ -24,27 +24,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor
 public class ProductAggregateService implements FindProductUseCase {
     private final RestTemplate restTemplate;
     private final ServiceUtil serviceUtil;
 
-    @Value("app.product-service.host")
-    private final String productHost;
-    @Value("app.product-service.port")
-    private final int productPort;
-    @Value("app.review-service.host")
-    private final String reviewHost;
-    @Value("app.review-service.port")
-    private final int reviewPort;
-    @Value("app.recommendation-service.host")
-    private final String recommendationHost;
-    @Value("app.recommendation-service.port")
-    private final int recommendationPort;
-
-    private final String productUrl = "http://" + productHost + ":" + productPort;
-    private final String reviewUrl = "http://" + reviewHost + ":" + reviewPort;
-    private final String recommendationUrl = "http://" + recommendationHost + ":" + recommendationPort;
+    private final String productUrl;
+    private final String reviewUrl;
+    private final String recommendationUrl;
 
     private Product product;
     private List<Review> reviewList;
@@ -52,6 +38,25 @@ public class ProductAggregateService implements FindProductUseCase {
     private ProductAggregate productAggregate;
     private List<ReviewSummary> reviewSummaryList;
     private List<RecommendationSummary> recommendationSummaryList;
+
+    @Autowired
+    public ProductAggregateService(
+            RestTemplate restTemplate,
+            ServiceUtil serviceUtil,
+            @Value("app.product-service.host") String productHost,
+            @Value("app.product-service.port") String productPort,
+            @Value("app.review-service.host") String reviewHost,
+            @Value("app.review-service.port") String reviewPort,
+            @Value("app.recommendation-service.host") String recommendationHost,
+            @Value("app.recommendation-service.port") String recommendationPort
+            ) {
+        this.restTemplate = restTemplate;
+        this.serviceUtil = serviceUtil;
+
+        this.productUrl = "http://" + productHost + ":" + productPort;
+        this.reviewUrl = "http://" + reviewHost + ":" + reviewPort;
+        this.recommendationUrl = "http://" + recommendationHost + ":" + recommendationPort;
+    }
 
     @Override
     public ProductAggregate getProductAggregate(int id) throws ProductAggregateNotFoundException {

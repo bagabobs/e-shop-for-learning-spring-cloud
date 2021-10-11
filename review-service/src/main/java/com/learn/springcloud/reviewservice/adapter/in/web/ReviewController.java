@@ -2,6 +2,8 @@ package com.learn.springcloud.reviewservice.adapter.in.web;
 
 import com.learn.springcloud.core.review.domain.Review;
 import com.learn.springcloud.reviewservice.application.port.in.FindReviewUseCase;
+import com.learn.springcloud.util.exceptions.NotFoundException;
+import com.learn.springcloud.util.exceptions.ReviewNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,10 @@ public class ReviewController {
 
     @GetMapping("/{id}")
     public List<Review> getReviewListByProductId(@PathVariable int id) {
-
+        try {
+            return findReviewUseCase.getReviewsByProductId(id);
+        } catch(ReviewNotFoundException e) {
+            throw new NotFoundException(e);
+        }
     }
 }
