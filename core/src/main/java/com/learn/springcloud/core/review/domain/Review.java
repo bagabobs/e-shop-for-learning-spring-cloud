@@ -1,8 +1,12 @@
 package com.learn.springcloud.core.review.domain;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Value
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Review {
     int productId;
     int reviewId;

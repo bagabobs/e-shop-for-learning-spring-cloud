@@ -13,6 +13,7 @@ import com.learn.springcloud.util.exceptions.ProductAggregateNotFoundException;
 import com.learn.springcloud.util.exceptions.ProductNotFoundException;
 import com.learn.springcloud.util.exceptions.RecommendationNotFoundException;
 import com.learn.springcloud.util.exceptions.ReviewNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Slf4j
 public class ProductAggregateService implements FindProductUseCase {
     private final RestTemplate restTemplate;
     private final ServiceUtil serviceUtil;
@@ -43,19 +45,22 @@ public class ProductAggregateService implements FindProductUseCase {
     public ProductAggregateService(
             RestTemplate restTemplate,
             ServiceUtil serviceUtil,
-            @Value("app.product-service.host") String productHost,
-            @Value("app.product-service.port") String productPort,
-            @Value("app.review-service.host") String reviewHost,
-            @Value("app.review-service.port") String reviewPort,
-            @Value("app.recommendation-service.host") String recommendationHost,
-            @Value("app.recommendation-service.port") String recommendationPort
+            @Value("${app.product-service.host}") String productHost,
+            @Value("${app.product-service.port}") String productPort,
+            @Value("${app.review-service.host}") String reviewHost,
+            @Value("${app.review-service.port}") String reviewPort,
+            @Value("${app.recommendation-service.host}") String recommendationHost,
+            @Value("${app.recommendation-service.port}") String recommendationPort
             ) {
         this.restTemplate = restTemplate;
         this.serviceUtil = serviceUtil;
 
         this.productUrl = "http://" + productHost + ":" + productPort;
+        log.info(this.productUrl);
         this.reviewUrl = "http://" + reviewHost + ":" + reviewPort;
+        log.info(this.reviewUrl);
         this.recommendationUrl = "http://" + recommendationHost + ":" + recommendationPort;
+        log.info(this.recommendationUrl);
     }
 
     @Override
@@ -68,6 +73,7 @@ public class ProductAggregateService implements FindProductUseCase {
              createProductAggregate();
             return productAggregate;
         } catch(Exception e) {
+            log.info("Error: get product aggragate: " + e.getMessage());
             throw new ProductAggregateNotFoundException();
         }
     }
@@ -93,9 +99,10 @@ public class ProductAggregateService implements FindProductUseCase {
         });
     }
 
-    private List<Recommendation> getRecomendationsProduct(int id) throws RecommendationNotFoundException {
+    @Override
+    public List<Recommendation> getRecomendationsProduct(int id) throws RecommendationNotFoundException {
         try {
-            String recommendationsProductUrl = recommendationUrl + "/" + id;
+            String recommendationsProductUrl = recommendationUrl + "/recommendation/" + id;
             return restTemplate.exchange(recommendationsProductUrl, GET, null, new ParameterizedTypeReference<List<Recommendation>>() {
             }).getBody();
         } catch(Exception e) {
@@ -103,9 +110,10 @@ public class ProductAggregateService implements FindProductUseCase {
         }
     }
 
-    private List<Review> getReviewsProduct(int id) throws ReviewNotFoundException {
+    @Override
+    public List<Review> getReviewsProduct(int id) throws ReviewNotFoundException {
         try {
-            String reviewsProductUrl = reviewUrl + "/" + id;
+            String reviewsProductUrl = reviewUrl + "/review/" + id;
             return restTemplate.exchange(reviewsProductUrl, GET, null, new ParameterizedTypeReference<List<Review>>() {
             }).getBody();
         } catch(Exception e) {
@@ -113,9 +121,10 @@ public class ProductAggregateService implements FindProductUseCase {
         }
     }
 
-    private Product getProduct(int id) throws ProductNotFoundException {
+    @Override
+    public Product getProduct(int id) throws ProductNotFoundException {
         try {
-            String productIdUrl = productUrl + "/" + id;
+            String productIdUrl = productUrl + "/product/" + id;
             return restTemplate.getForObject(productIdUrl, Product.class);
         } catch(Exception e) {
             throw new ProductNotFoundException("Error: not found product", e);

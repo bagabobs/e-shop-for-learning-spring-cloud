@@ -1,8 +1,12 @@
 package com.learn.springcloud.core.recommendation.domain;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Value
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class Recommendation {
     int productId;
     int recommendationId;
